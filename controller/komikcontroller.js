@@ -10,3 +10,16 @@ async function getALLKomik(req, res) {
     }
 }
 
+async function getKomikById(req, res) {
+    const { id } = req.params;
+    try {
+        const komik = await db.komik.findByPk(id);
+        if (!komik) {
+            return res.status(404).json({ error: 'Komik not found' });
+        }
+        res.status(200).json(komik);
+    } catch (error) {
+        console.error('Error fetching komik by ID:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
